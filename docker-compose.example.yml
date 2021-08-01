@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  discord-bot:
+    container_name: discord-bot
+    image: node:14.16.0-alpine
+    volumes:
+      - ./:/usr/app/
+    environment:
+      BOT_TOKEN: YOUR_BOT_TOKEN
+      APPLICATION_ID: YOUR_APPLICATION_ID
+      GUILD_ID: YOUR_GUILD_ID
+      ADMIN_ID: YOUR_ADMIN_ID
+    tty: true
+    working_dir: /usr/app/
