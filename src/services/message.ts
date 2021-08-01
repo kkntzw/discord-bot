@@ -72,7 +72,9 @@ export namespace MessageService {
    * @param description 説明
    * @returns 異常系メッセージ
    */
-  export const forbiddenMessage = (description: string) => {
+  export const forbiddenMessage = (
+    description = '一般ユーザには使えないコマンドだよ🥺'
+  ) => {
     return errorMessage('Forbidden!', description);
   };
 
@@ -92,7 +94,9 @@ export namespace MessageService {
    * @param description 説明
    * @returns 異常系メッセージ
    */
-  export const internalServerErrorMessage = (description: string) => {
+  export const internalServerErrorMessage = (
+    description = 'サーバ内部でエラーが発生しているよ😱\nしばらく経っても直らない場合は管理者に問い合わせてね！'
+  ) => {
     return errorMessage('Internal Server Error!', description);
   };
 

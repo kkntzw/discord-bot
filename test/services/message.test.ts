@@ -68,6 +68,17 @@ test(
 );
 
 test(
+  'メソッド forbiddenMessage() の引数を省略した場合 description に初期値を設定した異常系メッセージを返却する。',
+  () => {
+    const message = MessageService.forbiddenMessage();
+    expect(message).toBeInstanceOf(MessageEmbed);
+    expect(message.color).toBe(0xff0000);
+    expect(message.title).toBe('Forbidden!');
+    expect(message.description).toBe('一般ユーザには使えないコマンドだよ🥺');
+  }
+);
+
+test(
   'メソッド notFoundMessage() は title に "Not Found!" を設定した異常系メッセージを返却する。',
   () => {
     const message = MessageService.notFoundMessage('説明');
@@ -86,5 +97,16 @@ test(
     expect(message.color).toBe(0xff0000);
     expect(message.title).toBe('Internal Server Error!');
     expect(message.description).toBe('説明');
+  }
+);
+
+test(
+  'メソッド internalServerErrorMessage() の引数を省略した場合 description に初期値を設定した異常系メッセージを返却する。',
+  () => {
+    const message = MessageService.internalServerErrorMessage();
+    expect(message).toBeInstanceOf(MessageEmbed);
+    expect(message.color).toBe(0xff0000);
+    expect(message.title).toBe('Internal Server Error!');
+    expect(message.description).toBe('サーバ内部でエラーが発生しているよ😱\nしばらく経っても直らない場合は管理者に問い合わせてね！');
   }
 );
