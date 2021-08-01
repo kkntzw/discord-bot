@@ -86,4 +86,14 @@ export namespace MessageService {
     return errorMessage('Not Found!', description);
   };
 
+  /**
+   * サーバエラーメッセージを返却する。
+   *
+   * @param description 説明
+   * @returns 異常系メッセージ
+   */
+  export const internalServerErrorMessage = (description: string) => {
+    return errorMessage('Internal Server Error!', description);
+  };
+
 }

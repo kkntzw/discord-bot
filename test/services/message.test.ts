@@ -77,3 +77,14 @@ test(
     expect(message.description).toBe('説明');
   }
 );
+
+test(
+  'メソッド internalServerErrorMessage() は title に "Internal Server Error!" を設定した異常系メッセージを返却する。',
+  () => {
+    const message = MessageService.internalServerErrorMessage('説明');
+    expect(message).toBeInstanceOf(MessageEmbed);
+    expect(message.color).toBe(0xff0000);
+    expect(message.title).toBe('Internal Server Error!');
+    expect(message.description).toBe('説明');
+  }
+);
