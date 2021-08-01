@@ -16,7 +16,7 @@
   "scripts": {
     "test": "jest",
     "compile": "npx tsc -p ./",
-    "debug": "ts-node ./src/index.js",
+    "debug": "ts-node ./src/index.ts",
     "start": "node ./dist/index.js"
   },
   "dependencies": {
