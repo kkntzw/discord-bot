@@ -117,3 +117,19 @@ test(
     expect(DiceService.judge(100, 50, undefined, 96)).toBe(Judgement.FAILURE);
   }
 );
+
+test(
+  'メソッド toString() はダイスロールの結果を文字列表記にして返却する。',
+  () => {
+    expect(DiceService.toString('1D100', 50))
+      .toBe('1D100 ＞ 50')
+    expect(DiceService.toString('CCB<=50', 49, Judgement.SUCCESS))
+      .toBe('CCB<=50 ＞ 49 ＞ 成功');
+    expect(DiceService.toString('CCB<=50', 51, Judgement.FAILURE))
+      .toBe('CCB<=50 ＞ 51 ＞ 失敗');
+    expect(DiceService.toString('CCB<=50', 1, Judgement.CRITICAL))
+      .toBe('CCB<=50 ＞ 1 ＞ 決定的成功/クリティカル');
+    expect(DiceService.toString('CCB<=50', 100, Judgement.FUMBLE))
+      .toBe('CCB<=50 ＞ 100 ＞ 致命的失敗/ファンブル');
+  }
+);

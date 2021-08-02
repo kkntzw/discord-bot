@@ -98,4 +98,19 @@ export namespace DiceService {
     return isFumble(total, fumbleLimit);
   };
 
+  /**
+   * ダイスロールの結果を文字列表記にして返却する。
+   *
+   * @param command コマンド
+   * @param total 実測値
+   * @param judgement 判定
+   * @returns 文字列表記
+   */
+  export const toString = (command: string, total: number, judgement?: Judgement) => {
+    if (judgement === undefined) {
+      return `${command} ＞ ${total}`;
+    }
+    return `${command} ＞ ${total} ＞ ${judgement}`;
+  };
+
 }
