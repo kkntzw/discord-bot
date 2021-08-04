@@ -119,6 +119,31 @@ export namespace DiceService {
   }
 
   /**
+   * ダイスロールの判定から埋め込みメッセージの色を返却する。
+   *
+   * 成功, 決定的成功, 自動成功の場合は青色を返却する。
+   * 失敗, 致命的失敗, 自動失敗の場合は赤色を返却する。
+   * 未指定の場合は灰色を返却する。
+   *
+   * @param judgement 判定
+   * @returns 色
+   */
+  export const toColor = (judgement?: Judgement) => {
+    switch (judgement) {
+      case Judgement.SUCCESS:
+      case Judgement.CRITICAL:
+      case Judgement.AUTOMATIC_SUCCESS:
+        return 0x0080ff;
+      case Judgement.FAILURE:
+      case Judgement.FUMBLE:
+      case Judgement.AUTOMATIC_FAILURE:
+        return 0xff0000;
+      default:
+        return 0x888888;
+    }
+  }
+
+  /**
    * ダイスロールの結果を埋め込みメッセージの説明として整形する。
    *
    * @param command コマンド

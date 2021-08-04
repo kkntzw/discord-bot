@@ -42,7 +42,7 @@ export class ChoiceStrategy implements DiceSystemStrategy {
 
     // 正常系メッセージを返却して終了。
     return MessageService.message(
-      0x888888,
+      DiceService.toColor(),
       DiceService.toTitle(command, comment),
       DiceService.toDescription(command, result)
     );

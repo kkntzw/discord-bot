@@ -183,6 +183,31 @@ test(
 );
 
 test(
+  'メソッド toColor() は成功、決定的成功、自動成功の場合、青色を返却する。',
+  () => {
+    expect(DiceService.toColor(Judgement.SUCCESS)).toBe(0x0080ff);
+    expect(DiceService.toColor(Judgement.CRITICAL)).toBe(0x0080ff);
+    expect(DiceService.toColor(Judgement.AUTOMATIC_SUCCESS)).toBe(0x0080ff);
+  }
+);
+
+test(
+  'メソッド toColor() は失敗、致命的失敗、自動失敗の場合、赤色を返却する。',
+  () => {
+    expect(DiceService.toColor(Judgement.FAILURE)).toBe(0xff0000);
+    expect(DiceService.toColor(Judgement.FUMBLE)).toBe(0xff0000);
+    expect(DiceService.toColor(Judgement.AUTOMATIC_FAILURE)).toBe(0xff0000);
+  }
+);
+
+test(
+  'メソッド toColor() は未指定の場合、灰色を返却する。',
+  () => {
+    expect(DiceService.toColor()).toBe(0x888888);
+  }
+);
+
+test(
   'メソッド toDescription() はコマンド、実測値、判定を結合して返却する。',
   () => {
     expect(DiceService.toDescription('CCB<=50', 49, Judgement.SUCCESS))

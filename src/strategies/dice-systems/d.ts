@@ -1,4 +1,3 @@
-import { Judgement } from '../../enums/judgement';
 import { DiceService } from "../../services/dice";
 import { MessageService } from '../../services/message';
 import { DiceSystemStrategy } from ".";
@@ -37,7 +36,7 @@ export class DStrategy implements DiceSystemStrategy {
     // 期待値が未指定の場合は結果を判定せず、正常系メッセージを返却して終了。
     if (isNaN(target)) {
       return MessageService.message(
-        0x888888,
+        DiceService.toColor(),
         title,
         DiceService.toDescription(command.toUpperCase(), total)
       );
@@ -49,13 +48,12 @@ export class DStrategy implements DiceSystemStrategy {
     // 埋め込みメッセージの説明を設定する。
     const description = DiceService.toDescription(command.toUpperCase(), total, judgement);
 
-    // 判定が成功の場合は色が 0x0080ff の正常系メッセージを返却して終了。
-    if (judgement === Judgement.SUCCESS) {
-      return MessageService.message(0x0080ff, title, description);
-    }
-
-    // 判定が失敗の場合は色が 0xff0000 の正常系メッセージを返却して終了。
-    return MessageService.message(0xff0000, title, description);
+    // 正常系メッセージを返却して終了。
+    return MessageService.message(
+      DiceService.toColor(judgement),
+      title,
+      description
+    );
   }
 
 }
