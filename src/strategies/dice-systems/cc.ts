@@ -35,7 +35,7 @@ export class CCStrategy implements DiceSystemStrategy {
       return MessageService.message(
         0x888888,
         title,
-        DiceService.toString('1D100', total)
+        DiceService.toDescription('1D100', total)
       );
     }
 
@@ -43,7 +43,7 @@ export class CCStrategy implements DiceSystemStrategy {
     const judgement = DiceService.judge(total, target, 1, 100);
 
     // 埋め込みメッセージの説明を設定する。
-    const description = DiceService.toString('1D100', total, judgement);
+    const description = DiceService.toDescription('1D100', total, judgement);
 
     // 判定が成功/決定的成功の場合は色が 0x0080ff の正常系メッセージを返却して終了。
     if (judgement === Judgement.SUCCESS || judgement === Judgement.CRITICAL) {

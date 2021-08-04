@@ -99,53 +99,132 @@ test(
 );
 
 test(
-  'メソッド judge() はダイスロールの結果を判定する。',
+  'メソッド judge() は実測値が期待値以下かつ判定上限より大きい場合、成功と判定する。',
   () => {
-    expect(DiceService.judge(49,  50, 5, 96)).toBe(Judgement.SUCCESS);
-    expect(DiceService.judge(51,  50, 5, 96)).toBe(Judgement.FAILURE);
-    expect(DiceService.judge(1,   50, 5, 96)).toBe(Judgement.CRITICAL);
-    expect(DiceService.judge(100, 50, 5, 96)).toBe(Judgement.FUMBLE);
+    expect(DiceService.judge(49, 50, 5, 96)).toBe(Judgement.SUCCESS);
+    expect(DiceService.judge(6,  50, 5, 96)).toBe(Judgement.SUCCESS);
   }
 );
 
 test(
-  'メソッド judge() は判定上限または判定下限を省略した場合、クリファン判定を行わない。',
+  'メソッド judge() は実測値が期待値以下かつ判定上限以下の場合、決定的成功と判定する。',
+  () => {
+    expect(DiceService.judge(1, 50, 5, 96)).toBe(Judgement.CRITICAL);
+    expect(DiceService.judge(5, 50, 5, 96)).toBe(Judgement.CRITICAL);
+  }
+);
+
+test(
+  'メソッド judge() は実測値が期待値より大きいかつ判定下限より小さい場合、失敗と判定する。',
+  () => {
+    expect(DiceService.judge(51, 50, 5, 96)).toBe(Judgement.FAILURE);
+    expect(DiceService.judge(95, 50, 5, 96)).toBe(Judgement.FAILURE);
+  }
+);
+
+test(
+  'メソッド judge() は実測値が期待値より大きいかつ判定下限以上の場合、致命的失敗と判定する。',
+  () => {
+    expect(DiceService.judge(100, 50, 5, 96)).toBe(Judgement.FUMBLE);
+    expect(DiceService.judge(96,  50, 5, 96)).toBe(Judgement.FUMBLE);
+  }
+);
+
+test(
+  'メソッド judge() は判定上限を省略した場合、クリファン判定を行わない。',
   () => {
     expect(DiceService.judge(1,   50)).toBe(Judgement.SUCCESS);
-    expect(DiceService.judge(100, 50)).toBe(Judgement.FAILURE);
-    expect(DiceService.judge(1,   50, 5)).toBe(Judgement.SUCCESS);
     expect(DiceService.judge(100, 50, undefined, 96)).toBe(Judgement.FAILURE);
   }
 );
 
 test(
-  'メソッド toString() はダイスロールの結果を文字列表記にして返却する。',
+  'メソッド judge() は判定下限を省略した場合、クリファン判定を行わない。',
   () => {
-    expect(DiceService.toString('1D100', 50))
-      .toBe('1D100 ＞ 50');
-    expect(DiceService.toString('CCB<=50', 49, Judgement.SUCCESS))
-      .toBe('CCB<=50 ＞ 49 ＞ 成功');
-    expect(DiceService.toString('CCB<=50', 51, Judgement.FAILURE))
-      .toBe('CCB<=50 ＞ 51 ＞ 失敗');
-    expect(DiceService.toString('CCB<=50', 1, Judgement.CRITICAL))
-      .toBe('CCB<=50 ＞ 1 ＞ 決定的成功/クリティカル');
-    expect(DiceService.toString('CCB<=50', 100, Judgement.FUMBLE))
-      .toBe('CCB<=50 ＞ 100 ＞ 致命的失敗/ファンブル');
-    expect(DiceService.toString('choice(A, B)', 'A'))
-      .toBe('choice(A, B) ＞ A');
+    expect(DiceService.judge(100, 50)).toBe(Judgement.FAILURE);
+    expect(DiceService.judge(1,   50, 5)).toBe(Judgement.SUCCESS);
   }
 );
 
 test(
-  'メソッド toTitle() はコマンドとコメントを埋め込みメッセージのタイトルとして整形する。',
+  'メソッド toDescription() はコマンド、実測値、判定を結合して返却する。',
+  () => {
+    expect(DiceService.toDescription('CCB<=50', 49, Judgement.SUCCESS))
+      .toBe('CCB<=50 ＞ 49 ＞ 成功');
+    expect(DiceService.toDescription('CCB<=50', 51, Judgement.FAILURE))
+      .toBe('CCB<=50 ＞ 51 ＞ 失敗');
+    expect(DiceService.toDescription('CCB<=50', 1, Judgement.CRITICAL))
+      .toBe('CCB<=50 ＞ 1 ＞ 決定的成功/クリティカル');
+    expect(DiceService.toDescription('CCB<=50', 100, Judgement.FUMBLE))
+      .toBe('CCB<=50 ＞ 100 ＞ 致命的失敗/ファンブル');
+  }
+);
+
+test(
+  'メソッド toDescription() は実測値と判定が省略された場合、コマンドを返却する。',
+  () => {
+    expect(DiceService.toDescription('Hello')).toBe('Hello');
+    expect(DiceService.toDescription('Hello', undefined)).toBe('Hello');
+    expect(DiceService.toDescription('Hello', undefined, undefined)).toBe('Hello');
+  }
+);
+
+test(
+  'メソッド toDescription() は判定が省略された場合、コマンドと実測値を結合して返却する。',
+  () => {
+    expect(DiceService.toDescription('1D100', 50)).toBe('1D100 ＞ 50');
+    expect(DiceService.toDescription('1D100', 50, undefined)).toBe('1D100 ＞ 50');
+    expect(DiceService.toDescription('choice(A, B)', 'A')).toBe('choice(A, B) ＞ A');
+  }
+);
+
+test(
+  'メソッド toDescription() は実測値が省略された場合、コマンドと判定を結合して返却する。',
+  () => {
+    expect(DiceService.toDescription('1D100<=100', undefined, Judgement.AUTOMATIC_SUCCESS));
+    expect(DiceService.toDescription('1D100<=0', undefined, Judgement.AUTOMATIC_FAILURE));
+  }
+);
+
+test(
+  'メソッド toTitle() はコマンド、コメントを結合して返却する。',
+  () => {
+    expect(DiceService.toTitle('CCB<=50', '目星')).toBe('CCB<=50 【目星】');
+  }
+);
+
+test(
+  'メソッド toTitle() はコメントが省略された場合、コマンドを返却する。',
   () => {
     expect(DiceService.toTitle('CCB<=50')).toBe('CCB<=50');
-    expect(DiceService.toTitle('CCB<=50', '目星')).toBe('CCB<=50 【目星】');
-    expect(DiceService.toTitle('CCB<=50', ' 目星  ')).toBe('CCB<=50 【目星】');
-    expect(DiceService.toTitle('CCB<=50', '　目星　　')).toBe('CCB<=50 【目星】');
-    expect(DiceService.toTitle('CCB<=50', '目星 または 図書館')).toBe('CCB<=50 【目星 または 図書館】');
-    expect(DiceService.toTitle('CCB<=50', '目星　または　図書館')).toBe('CCB<=50 【目星 または 図書館】');
-    expect(DiceService.toTitle('CCB<=50', '  目星 または  図書館 ')).toBe('CCB<=50 【目星 または 図書館】');
-    expect(DiceService.toTitle('CCB<=50', '　　目星　または　　図書館　')).toBe('CCB<=50 【目星 または 図書館】');
+    expect(DiceService.toTitle('CCB<=50', undefined)).toBe('CCB<=50');
+  }
+);
+
+test(
+  'メソッド toTitle() はコメント中にスペースが連続して並んでいる場合、半角スペース1つに置換する。',
+  () => {
+    expect(DiceService.toTitle('CCB<=50', '目星 または 図書館'))
+      .toBe('CCB<=50 【目星 または 図書館】');
+    expect(DiceService.toTitle('CCB<=50', '目星　または　図書館'))
+      .toBe('CCB<=50 【目星 または 図書館】');
+    expect(DiceService.toTitle('CCB<=50', '目星 または  図書館'))
+      .toBe('CCB<=50 【目星 または 図書館】');
+    expect(DiceService.toTitle('CCB<=50', '目星　または　　図書館'))
+      .toBe('CCB<=50 【目星 または 図書館】');
+  }
+);
+
+test(
+  'メソッド toTitle() はコメント前後にスペースが含まれている場合、スペースを削除する。',
+  () => {
+    expect(DiceService.toTitle('CCB<=50', ' 目星  '))
+      .toBe('CCB<=50 【目星】');
+    expect(DiceService.toTitle('CCB<=50', '　目星　　'))
+      .toBe('CCB<=50 【目星】');
+    expect(DiceService.toTitle('CCB<=50', '  目星 または  図書館 '))
+      .toBe('CCB<=50 【目星 または 図書館】');
+    expect(DiceService.toTitle('CCB<=50', '　　目星　または　　図書館　'))
+      .toBe('CCB<=50 【目星 または 図書館】');
   }
 );

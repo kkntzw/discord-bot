@@ -39,7 +39,7 @@ export class DStrategy implements DiceSystemStrategy {
       return MessageService.message(
         0x888888,
         title,
-        DiceService.toString(command.toUpperCase(), total)
+        DiceService.toDescription(command.toUpperCase(), total)
       );
     }
 
@@ -47,7 +47,7 @@ export class DStrategy implements DiceSystemStrategy {
     const judgement = DiceService.judge(total, target);
 
     // 埋め込みメッセージの説明を設定する。
-    const description = DiceService.toString(command.toUpperCase(), total, judgement);
+    const description = DiceService.toDescription(command.toUpperCase(), total, judgement);
 
     // 判定が成功の場合は色が 0x0080ff の正常系メッセージを返却して終了。
     if (judgement === Judgement.SUCCESS) {

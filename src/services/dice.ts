@@ -99,15 +99,21 @@ export namespace DiceService {
   };
 
   /**
-   * ダイスロールの結果を文字列表記にして返却する。
+   * ダイスロールの結果を埋め込みメッセージの説明として整形する。
    *
    * @param command コマンド
    * @param total 実測値
    * @param judgement 判定
-   * @returns 文字列表記
+   * @returns 説明
    */
-  export const toString = (command: string, total: number|string, judgement?: Judgement) => {
-    if (judgement === undefined) {
+  export const toDescription = (command: string, total?: number|string, judgement?: Judgement) => {
+    if (total === undefined && judgement === undefined) {
+      return command;
+    }
+    if (total === undefined && judgement !== undefined) {
+      return `${command} ＞ ${judgement}`;
+    }
+    if (total !== undefined && judgement === undefined) {
       return `${command} ＞ ${total}`;
     }
     return `${command} ＞ ${total} ＞ ${judgement}`;

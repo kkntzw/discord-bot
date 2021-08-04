@@ -44,7 +44,7 @@ export class ChoiceStrategy implements DiceSystemStrategy {
     return MessageService.message(
       0x888888,
       DiceService.toTitle(command, comment),
-      DiceService.toString(command, result)
+      DiceService.toDescription(command, result)
     );
   }
 }
