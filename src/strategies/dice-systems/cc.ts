@@ -2,16 +2,16 @@ import { DiceService } from '../../services/dice';
 import { MessageService } from '../../services/message';
 import { DiceSystemStrategy } from '.';
 
-export class CCBStrategy implements DiceSystemStrategy {
+export class CCStrategy implements DiceSystemStrategy {
 
-  name = 'CCB';
+  name = 'CC';
 
   /**
    * ダイスシステムの正規表現。
    *
    * target は期待値を表し、0 以上 100 以下の整数値をとる。
    */
-  regexp = /^CCB(?:<=(?<target>100|[1-9]\d|\d))?$/i;
+  regexp = /^CC(?:<=(?<target>100|[1-9]\d|\d))?$/i;
 
   evaluate(command: string, comment?: string) {
     // コマンドの形式が不正な場合は異常系メッセージを返却して終了。
@@ -39,7 +39,7 @@ export class CCBStrategy implements DiceSystemStrategy {
     }
 
     // 結果を判定する。
-    const judgement = DiceService.judge(total, target, 5, 96);
+    const judgement = DiceService.judge(total, target, 1, 100);
 
     // 埋め込みメッセージの説明を設定する。
     const description = DiceService.toDescription('1D100', total, judgement);
