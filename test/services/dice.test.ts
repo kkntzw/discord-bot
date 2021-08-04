@@ -99,6 +99,42 @@ test(
 );
 
 test(
+  'メソッド judgeAutomatically() は期待値が上限以上の場合、自動成功と判定する。',
+  () => {
+    expect(DiceService.judgeAutomatically(100, 1, 100)).toBe(Judgement.AUTOMATIC_SUCCESS);
+    expect(DiceService.judgeAutomatically(101, 1, 100)).toBe(Judgement.AUTOMATIC_SUCCESS);
+    expect(DiceService.judgeAutomatically(99,  1, 100)).not.toBe(Judgement.AUTOMATIC_SUCCESS);
+  }
+);
+
+test(
+  'メソッド judgeAutomatically() は期待値が下限より小さい場合、自動失敗と判定する。',
+  () => {
+    expect(DiceService.judgeAutomatically(0, 1, 100)).toBe(Judgement.AUTOMATIC_FAILURE);
+    expect(DiceService.judgeAutomatically(1, 1, 100)).not.toBe(Judgement.AUTOMATIC_FAILURE);
+    expect(DiceService.judgeAutomatically(2, 1, 100)).not.toBe(Judgement.AUTOMATIC_FAILURE);
+  }
+);
+
+test(
+  'メソッド judgeAutomatically() は期待値が上限より小さい場合、undefined を返却する。',
+  () => {
+    expect(DiceService.judgeAutomatically(100, 1, 100)).not.toBe(undefined);
+    expect(DiceService.judgeAutomatically(101, 1, 100)).not.toBe(undefined);
+    expect(DiceService.judgeAutomatically(99,  1, 100)).toBe(undefined);
+  }
+);
+
+test(
+  'メソッド judgeAutomatically() は期待値が下限以上の場合、undefined を返却する。',
+  () => {
+    expect(DiceService.judgeAutomatically(0, 1, 100)).not.toBe(undefined);
+    expect(DiceService.judgeAutomatically(1, 1, 100)).toBe(undefined);
+    expect(DiceService.judgeAutomatically(2, 1, 100)).toBe(undefined);
+  }
+);
+
+test(
   'メソッド judge() は実測値が期待値以下かつ判定上限より大きい場合、成功と判定する。',
   () => {
     expect(DiceService.judge(49, 50, 5, 96)).toBe(Judgement.SUCCESS);

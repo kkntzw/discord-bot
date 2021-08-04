@@ -99,6 +99,26 @@ export namespace DiceService {
   };
 
   /**
+   * 自動判定を行う。
+   *
+   * @param target 期待値
+   * @param min 最小値
+   * @param max 最大値
+   * @return 自動判定結果
+   */
+  export const judgeAutomatically = (target: number, min: number, max: number): Judgement | undefined => {
+    // 期待値が出目の最小値より小さい場合は自動失敗。
+    if (target < min) {
+      return Judgement.AUTOMATIC_FAILURE;
+    }
+    // 期待値が出目の最大値以上の場合は自動成功。
+    if (target >= max) {
+      return Judgement.AUTOMATIC_SUCCESS;
+    }
+    return undefined;
+  }
+
+  /**
    * ダイスロールの結果を埋め込みメッセージの説明として整形する。
    *
    * @param command コマンド
