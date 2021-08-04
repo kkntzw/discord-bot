@@ -122,7 +122,7 @@ test(
   'メソッド toString() はダイスロールの結果を文字列表記にして返却する。',
   () => {
     expect(DiceService.toString('1D100', 50))
-      .toBe('1D100 ＞ 50')
+      .toBe('1D100 ＞ 50');
     expect(DiceService.toString('CCB<=50', 49, Judgement.SUCCESS))
       .toBe('CCB<=50 ＞ 49 ＞ 成功');
     expect(DiceService.toString('CCB<=50', 51, Judgement.FAILURE))
@@ -131,5 +131,21 @@ test(
       .toBe('CCB<=50 ＞ 1 ＞ 決定的成功/クリティカル');
     expect(DiceService.toString('CCB<=50', 100, Judgement.FUMBLE))
       .toBe('CCB<=50 ＞ 100 ＞ 致命的失敗/ファンブル');
+    expect(DiceService.toString('choice(A, B)', 'A'))
+      .toBe('choice(A, B) ＞ A');
+  }
+);
+
+test(
+  'メソッド toTitle() はコマンドとコメントを埋め込みメッセージのタイトルとして整形する。',
+  () => {
+    expect(DiceService.toTitle('CCB<=50')).toBe('CCB<=50');
+    expect(DiceService.toTitle('CCB<=50', '目星')).toBe('CCB<=50 【目星】');
+    expect(DiceService.toTitle('CCB<=50', ' 目星  ')).toBe('CCB<=50 【目星】');
+    expect(DiceService.toTitle('CCB<=50', '　目星　　')).toBe('CCB<=50 【目星】');
+    expect(DiceService.toTitle('CCB<=50', '目星 または 図書館')).toBe('CCB<=50 【目星 または 図書館】');
+    expect(DiceService.toTitle('CCB<=50', '目星　または　図書館')).toBe('CCB<=50 【目星 または 図書館】');
+    expect(DiceService.toTitle('CCB<=50', '  目星 または  図書館 ')).toBe('CCB<=50 【目星 または 図書館】');
+    expect(DiceService.toTitle('CCB<=50', '　　目星　または　　図書館　')).toBe('CCB<=50 【目星 または 図書館】');
   }
 );

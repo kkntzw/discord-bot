@@ -29,7 +29,7 @@ export class DStrategy implements DiceSystemStrategy {
     const target = Number(groups['target']);
 
     // 埋め込みメッセージのタイトルを設定する。
-    const title = comment === undefined ? command : `${command} ${comment}`;
+    const title = DiceService.toTitle(command, comment);
 
     // ダイスロールを行う。
     const total = DiceService.roll(times, faces);

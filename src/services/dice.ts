@@ -106,11 +106,36 @@ export namespace DiceService {
    * @param judgement 判定
    * @returns 文字列表記
    */
-  export const toString = (command: string, total: number, judgement?: Judgement) => {
+  export const toString = (command: string, total: number|string, judgement?: Judgement) => {
     if (judgement === undefined) {
       return `${command} ＞ ${total}`;
     }
     return `${command} ＞ ${total} ＞ ${judgement}`;
+  };
+
+  /**
+   * コマンドとコメントを埋め込みメッセージのタイトルとして整形する。
+   *
+   * @param command コマンド
+   * @param comment コメント
+   * @returns タイトル
+   */
+  export const toTitle = (command: string, comment?: string) => {
+    // コメントが未指定の場合、コマンド単体を返す。
+    if (comment === undefined) {
+      return command;
+    }
+
+    // コメントの余分なスペースを削除する。
+    const trimmedComment = comment.replace(/\s+/g, ' ').trim();
+
+    // コメントが空文字の場合、コマンド単体を返す。
+    if (trimmedComment === '') {
+      return command;
+    }
+
+    // コマンドとコメントをタイトルとして整形する。
+    return `${command} 【${trimmedComment}】` ;
   };
 
 }
