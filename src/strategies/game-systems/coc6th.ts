@@ -12,7 +12,7 @@ export class CoC6thStrategy implements GameSystemStrategy {
    * 複数の表記に対応している。
    * "6",
    * "CoC6th",
-   * "Call of Cthulhu 6h Edition",
+   * "Call of Cthulhu 6th Edition",
    * "クトゥルフ 6版",
    * "クトゥルフ神話TRPG 第6版"
    */
@@ -33,7 +33,7 @@ export class CoC6thStrategy implements GameSystemStrategy {
     // ポイントを求める。
     const SAN = POW * 5; // 正気度
     const LUK = POW * 5; // 幸運
-    const IDE = INT * 5; // アイデア
+    const IDA = INT * 5; // アイデア
     const KNO = EDU * 5; // 知識
     const HP = Math.trunc((CON + SIZ) / 2); // 耐久力
     const MP = POW; // マジック・ポイント
@@ -54,7 +54,7 @@ export class CoC6thStrategy implements GameSystemStrategy {
       .addField('DEX', DEX, true).addField('APP', APP, true).addField('SIZ', SIZ, true)
       .addField('INT', INT, true).addField('EDU', EDU, true).addField('年収', `${AI}万円`, true)
       .addField('\u200B', '**ポイント**', false)
-      .addField('SAN', SAN, true).addField('幸運', LUK, true).addField('アイデア', IDE, true)
+      .addField('SAN', SAN, true).addField('幸運', LUK, true).addField('アイデア', IDA, true)
       .addField('知識', KNO, true).addField('HP', HP, true).addField('MP', MP, true)
       .addField('職業P', JOB, true).addField('興味P', HOB, true).addField('DB', DB, true);
 
