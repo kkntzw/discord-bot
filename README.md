@@ -30,7 +30,7 @@ vi docker-compose.yml
 
 | 環境変数名 | 概要 |
 | --- | --- |
-| BOT_TOKEN | Bot の TOKEN |
+| BOT_TOKEN | Bot のトークン |
 | APPLICATION_ID | Bot のユーザID |
 | GUILD_ID | サーバID |
 | ADMIN_ID | サーバ管理者のユーザID |
