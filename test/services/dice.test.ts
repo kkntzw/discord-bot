@@ -119,18 +119,18 @@ test(
 test(
   'メソッド judgeAutomatically() は期待値が上限より小さい場合、undefined を返却する。',
   () => {
-    expect(DiceService.judgeAutomatically(100, 1, 100)).not.toBe(undefined);
-    expect(DiceService.judgeAutomatically(101, 1, 100)).not.toBe(undefined);
-    expect(DiceService.judgeAutomatically(99,  1, 100)).toBe(undefined);
+    expect(DiceService.judgeAutomatically(100, 1, 100)).not.toBeUndefined();
+    expect(DiceService.judgeAutomatically(101, 1, 100)).not.toBeUndefined();
+    expect(DiceService.judgeAutomatically(99,  1, 100)).toBeUndefined();
   }
 );
 
 test(
   'メソッド judgeAutomatically() は期待値が下限以上の場合、undefined を返却する。',
   () => {
-    expect(DiceService.judgeAutomatically(0, 1, 100)).not.toBe(undefined);
-    expect(DiceService.judgeAutomatically(1, 1, 100)).toBe(undefined);
-    expect(DiceService.judgeAutomatically(2, 1, 100)).toBe(undefined);
+    expect(DiceService.judgeAutomatically(0, 1, 100)).not.toBeUndefined();
+    expect(DiceService.judgeAutomatically(1, 1, 100)).toBeUndefined();
+    expect(DiceService.judgeAutomatically(2, 1, 100)).toBeUndefined();
   }
 );
 

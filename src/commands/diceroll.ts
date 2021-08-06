@@ -8,7 +8,7 @@ import { DICE_SYSTEMS } from '../strategies/dice-systems/context';
  * @param command コマンド
  * @returns ダイスシステム
  */
-const filterDice = (command: string): DiceSystemStrategy|undefined => {
+const filterDice = (command: string): DiceSystemStrategy | undefined => {
   return DICE_SYSTEMS.filter(diceSystem => diceSystem.regexp.test(command)).shift();
 };
 
