@@ -14,7 +14,13 @@ bot.on('ready', () => {
     commandsDir: 'commands',
     showWarns: true,
     testServers: GUILD_ID,
-  });
+  })
+    .setCategorySettings([
+      {
+        name: 'TRPG',
+        emoji: '🎲',
+      },
+    ]);
 });
 
 // ログインを実行して Discord へ接続する。
