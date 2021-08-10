@@ -8,13 +8,19 @@ const bot = new Client({
   partials: ['MESSAGE', 'REACTION'],
 });
 
-// BOTの準備完了に伴い WOKCommands を構築する。
+// Bot の準備完了に伴い WOKCommands を構築する。
 bot.on('ready', () => {
   new WOKCommands(bot, {
     commandsDir: 'commands',
     showWarns: true,
     testServers: GUILD_ID,
-  });
+  })
+    .setCategorySettings([
+      {
+        name: 'TRPG',
+        emoji: '🎲',
+      },
+    ]);
 });
 
 // ログインを実行して Discord へ接続する。
