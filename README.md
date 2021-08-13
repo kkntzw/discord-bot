@@ -81,3 +81,31 @@ make compile
 ```bash
 make start
 ```
+
+## デプロイ
+1. [イメージを構築する。](#イメージを構築する)
+1. [環境変数を設定する。](#環境変数を設定する)
+1. [コンテナを `docker` で実行する。](#コンテナを-docker-で実行する)
+1. [コンテナを `docker` で廃棄する。](#コンテナを-docker-で廃棄する)
+
+### イメージを構築する
+```bash
+docker build -t discord-bot:0.2.0 .
+```
+
+### 環境変数を設定する
+設定する環境変数は[上記](#docker-composeyml-の環境変数を設定する)参照。  
+
+```bash
+vi .env
+```
+
+### コンテナを `docker` で実行する
+```bash
+docker run -d --env-file .env --name discord-bot discord-bot:0.2.0
+```
+
+### コンテナを `docker` で廃棄する
+```bash
+docker rm -f discord-bot
+```
